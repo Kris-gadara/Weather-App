@@ -5,64 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Information App</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                       url('https://tse1.mm.bing.net/th?id=OIP.DHXPuW7I3sUaUYNtArw4zwHaEK&pid=Api') 
+                       no-repeat center center/cover;
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 40px 20px;
         }
 
         h1 {
-            color: #333;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
         }
 
         form {
-            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 25px;
+            backdrop-filter: blur(5px);
         }
 
         input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 20px;
+            width: 250px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            width: 280px;
+            background: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         button {
-            padding: 10px;
-            font-size: 16px;
-            background-color: #007bff;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            background: linear-gradient(45deg, #00ddeb, #8a00ff);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 20px;
             cursor: pointer;
-            margin-left: 10px;
+            transition: transform 0.3s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 221, 235, 0.5);
         }
 
         #weatherInfo {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            display: none; /* Initially hidden */
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        #weatherInfo h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        #weatherInfo p {
+            font-size: 1.1em;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
         }
 
         .error {
-            color: red;
-            font-weight: bold;
+            color: #ff6b6b;
+            font-weight: 600;
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            form { flex-direction: column; width: 100%; }
+            input[type="text"] { width: 100%; }
+            button { width: 100%; }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <h1>Weather Information App</h1>
     <form id="weatherForm">
         <input type="text" id="cityInput" placeholder="Enter city name" required>
@@ -72,7 +139,7 @@
     <div id="weatherInfo"></div>
 
     <script>
-        const apiKey = 'f2d0c773922d8defc81faaba8db308d2'        ; // Replace with your OpenWeatherMap API key
+        const apiKey = 'f2d0c773922d8defc81faaba8db308d2';
 
         document.getElementById('weatherForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -102,15 +169,14 @@
                 <p>Weather: ${data.weather[0].description}</p>
                 <p>Humidity: ${data.main.humidity}%</p>
                 <p>Wind Speed: ${data.wind.speed} m/s</p>`;
-            weatherInfo.style.display = 'block'; // Show the weather info
+            weatherInfo.style.display = 'block';
         }
 
         function displayError(message) {
             const weatherInfo = document.getElementById('weatherInfo');
             weatherInfo.innerHTML = `<p class="error">${message}</p>`;
-            weatherInfo.style.display = 'block'; // Show the error message
+            weatherInfo.style.display = 'block';
         }
     </script>
-
 </body>
 </html>
